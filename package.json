@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "node src/index.js"
+    "test": "node src/index.js",
+    "start": "nodemon ./src"
   },
   "keywords": [
     "Javascript",
@@ -14,8 +15,12 @@
   "author": "kevinllo <kevingrande2002@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.2",
     "sqlite": "^4.1.2",
     "sqlite3": "^5.1.1"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
 }

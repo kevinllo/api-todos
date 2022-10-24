@@ -4,7 +4,7 @@ import sqlite3 from "sqlite3";
 async function getDBHandler() {
     try {
         const dbHandler = await open({
-            filename: "todos.db",
+            filename: "todos.sqlite",
             driver: sqlite3.Database
         });
         if (!dbHandler) throw new TypeError(`DB Handler expected got ${dbHandler}`);
