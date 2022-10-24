@@ -50,7 +50,27 @@ ToDosRequestHandler.delete("/to-dos/:id", async (request, response) => {
             "DELETE FROM todos WHERE id = ?", todoId
         )
         await dbHandler.close();
-        response.send({ todoRemoved: {...deletedTodo }});
+        response.send({ todoRemoved: { ...deletedTodo } });
+    } catch (error) {
+        response.status(500).send({
+            error: "Something went wrong when trying to delete a to-do",
+            errorinfo: error.message
+        })
+    }
+});
+ToDosRequestHandler.patch("/to-dos/:id", async (request, response) => {
+    try {
+        const todoId = request.params.id;
+        const { title, description, isDone: is_done } = request.body;
+        const dbHandler = await getDBHandler();
+        const currentTodo = await dbHandler.run("SELECT title,description,is_done FROM todos WHERE id = ?", todoId);
+
+        const updatedTodo = await dbHandler.run(
+            "UPDATE todos SET title = ?, description = ?, is_done = ? WHERE id = ?",
+            title || currentTodo.title, description || currentTodo.description, is_done || currentTodo.is_done, todoId
+        )
+        await dbHandler.close();
+        response.send({ message: "Updated", ...updatedTodo });
     } catch (error) {
         response.status(500).send({
             error: "Something went wrong when trying to delete a to-do",
